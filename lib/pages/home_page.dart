@@ -2,9 +2,12 @@ import 'package:flutter/material.dart';
 import '../widgets/custom_bottom_navigation.dart';
 import 'profile_page.dart';
 import 'tasks_page.dart';
+import 'portfolio_page.dart';
 
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key});
+  final String title;
+
+  const MyHomePage({super.key, required this.title});
 
   @override
   State<MyHomePage> createState() => _MyHomePageState();
@@ -21,11 +24,15 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    final List<Widget> pages = <Widget>[TasksPage(), ProfilePage()];
+    final List<Widget> pages = <Widget>[
+      TasksPage(),
+      PortfolioPage(),
+      ProfilePage(),
+    ];
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('My App'),
+        title: Text(widget.title),
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
       ),
       body: pages[_selectedIndex],

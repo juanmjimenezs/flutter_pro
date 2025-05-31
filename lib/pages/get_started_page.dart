@@ -40,7 +40,9 @@ class _GetStartedPageState extends State<GetStartedPage> {
 
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (context) => const MyHomePage()),
+          MaterialPageRoute(
+            builder: (context) => const MyHomePage(title: 'Home Page'),
+          ),
         );
       } on FirebaseAuthException catch (e) {
         if (!mounted) return;
