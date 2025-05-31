@@ -30,7 +30,7 @@ class MyApp extends StatelessWidget {
           }
 
           if (snapshot.hasData) {
-            return const MyHomePage(title: 'Home Page');
+            return const MyHomePage();
           }
 
           return const WelcomePage();
