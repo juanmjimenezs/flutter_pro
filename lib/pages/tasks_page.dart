@@ -2,6 +2,7 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import '../database_service.dart';
+import '../auth_service.dart';
 
 class TasksPage extends StatefulWidget {
   const TasksPage({super.key});
@@ -14,6 +15,8 @@ class _TasksPageState extends State<TasksPage> {
   final TextEditingController _taskController = TextEditingController();
   List<Map<String, dynamic>> _tasks = [];
 
+  String get _userId => authService.value.currentUser?.uid ?? '';
+
   @override
   void initState() {
     super.initState();
@@ -21,7 +24,11 @@ class _TasksPageState extends State<TasksPage> {
   }
 
   Future<void> _loadTasks() async {
-    DataSnapshot? snapshot = await DatabaseService().read(path: 'tasks');
+    if (_userId.isEmpty) return;
+
+    DataSnapshot? snapshot = await DatabaseService().read(
+      path: 'users/$_userId/tasks',
+    );
     if (snapshot?.value != null) {
       setState(() {
         if (snapshot!.value is Map) {
@@ -44,7 +51,7 @@ class _TasksPageState extends State<TasksPage> {
   }
 
   Future<void> _addTask() async {
-    if (_taskController.text.isEmpty) return;
+    if (_taskController.text.isEmpty || _userId.isEmpty) return;
 
     final newTask = {
       'title': _taskController.text,
@@ -52,22 +59,26 @@ class _TasksPageState extends State<TasksPage> {
       'createdAt': DateTime.now().toIso8601String(),
     };
 
-    await DatabaseService().create(path: 'tasks', data: newTask);
+    await DatabaseService().create(path: 'users/$_userId/tasks', data: newTask);
 
     _taskController.clear();
     await _loadTasks();
   }
 
   Future<void> _toggleTask(String taskId, bool currentStatus) async {
+    if (_userId.isEmpty) return;
+
     await DatabaseService().update(
-      path: 'tasks/$taskId',
+      path: 'users/$_userId/tasks/$taskId',
       data: {'completed': !currentStatus},
     );
     await _loadTasks();
   }
 
   Future<void> _deleteTask(String taskId) async {
-    await DatabaseService().delete(path: 'tasks/$taskId');
+    if (_userId.isEmpty) return;
+
+    await DatabaseService().delete(path: 'users/$_userId/tasks/$taskId');
     await _loadTasks();
   }
 
