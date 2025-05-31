@@ -1,5 +1,6 @@
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import '../database_service.dart';
 
 class TasksPage extends StatefulWidget {
@@ -97,8 +98,17 @@ class _TasksPageState extends State<TasksPage> {
             itemCount: _tasks.length,
             itemBuilder: (context, index) {
               final task = _tasks[index];
+              final createdAt =
+                  task['createdAt'] != null
+                      ? DateTime.parse(task['createdAt'])
+                      : DateTime.now();
+              final formattedDate = DateFormat(
+                'dd/MM/yyyy HH:mm',
+              ).format(createdAt);
+
               return ListTile(
                 title: Text(task['title'] ?? 'Sin título'),
+                subtitle: Text(formattedDate),
                 leading: Checkbox(
                   value: task['completed'] ?? false,
                   onChanged:
