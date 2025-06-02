@@ -5,6 +5,7 @@ import '../pages/welcome_page.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
+  static const String title = 'Profile';
 
   @override
   State<ProfilePage> createState() => _ProfilePageState();
@@ -198,10 +199,7 @@ class _ProfilePageState extends State<ProfilePage> {
     }
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Profile'),
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-      ),
+      backgroundColor: Theme.of(context).colorScheme.inversePrimary,
       body: ListView(
         padding: const EdgeInsets.all(16.0),
         children: [

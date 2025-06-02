@@ -5,9 +5,7 @@ import 'tasks_page.dart';
 import 'portfolio_page.dart';
 
 class MyHomePage extends StatefulWidget {
-  final String title;
-
-  const MyHomePage({super.key, required this.title});
+  const MyHomePage({super.key});
 
   @override
   State<MyHomePage> createState() => _MyHomePageState();
@@ -29,10 +27,15 @@ class _MyHomePageState extends State<MyHomePage> {
       PortfolioPage(),
       ProfilePage(),
     ];
+    final List<String> titles = <String>[
+      TasksPage.title,
+      PortfolioPage.title,
+      ProfilePage.title,
+    ];
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.title),
+        title: Text(titles[_selectedIndex]),
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
       ),
       body: pages[_selectedIndex],
@@ -40,6 +43,7 @@ class _MyHomePageState extends State<MyHomePage> {
         currentIndex: _selectedIndex,
         onTap: _onItemTapped,
       ),
+      backgroundColor: Theme.of(context).colorScheme.inversePrimary,
     );
   }
 }

@@ -6,6 +6,7 @@ import '../auth_service.dart';
 
 class TasksPage extends StatefulWidget {
   const TasksPage({super.key});
+  static const String title = 'Tasks';
 
   @override
   State<TasksPage> createState() => _TasksPageState();

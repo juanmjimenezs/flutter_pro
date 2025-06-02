@@ -5,6 +5,7 @@ import '../auth_service.dart';
 
 class PortfolioPage extends StatefulWidget {
   const PortfolioPage({super.key});
+  static const String title = 'Portfolio';
 
   @override
   State<PortfolioPage> createState() => _PortfolioPageState();
@@ -91,7 +92,7 @@ class _PortfolioPageState extends State<PortfolioPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.yellow[700],
+      backgroundColor: Theme.of(context).colorScheme.inversePrimary,
       body: ListView.builder(
         padding: const EdgeInsets.all(16),
         itemCount: _portfolios.length,
@@ -119,8 +120,11 @@ class _PortfolioPageState extends State<PortfolioPage> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: _showAddPortfolioDialog,
-        backgroundColor: Colors.yellow[700],
-        child: const Icon(Icons.add, color: Colors.white),
+        backgroundColor: Theme.of(context).colorScheme.onSecondary,
+        child: Icon(
+          Icons.add,
+          color: Theme.of(context).colorScheme.inversePrimary,
+        ),
       ),
     );
   }
