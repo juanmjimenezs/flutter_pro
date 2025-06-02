@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_database/firebase_database.dart';
 import '../database_service.dart';
 import '../auth_service.dart';
+import '../data/currency.dart';
 
 class PortfolioPage extends StatefulWidget {
   const PortfolioPage({super.key});
@@ -47,15 +48,15 @@ class _PortfolioPageState extends State<PortfolioPage> {
   }
 
   Future<void> _addPortfolio(
-    String nombre,
-    String descripcion,
-    String moneda,
+    String name,
+    String description,
+    String currency,
   ) async {
     if (_userId.isEmpty) return;
     final newPortfolio = {
-      'nombre': nombre,
-      'descripcion': descripcion,
-      'moneda': moneda,
+      'name': name,
+      'description': description,
+      'currency': currency,
     };
     await DatabaseService().create(
       path: 'users/$_userId/portfolios',
@@ -80,9 +81,9 @@ class _PortfolioPageState extends State<PortfolioPage> {
               top: 32,
             ),
             child: _PortfolioForm(
-              onCreate: (nombre, descripcion, moneda) async {
+              onCreate: (name, description, currency) async {
                 Navigator.pop(context);
-                await _addPortfolio(nombre, descripcion, moneda);
+                await _addPortfolio(name, description, currency);
               },
             ),
           ),
@@ -106,12 +107,12 @@ class _PortfolioPageState extends State<PortfolioPage> {
             ),
             child: ListTile(
               title: Text(
-                p['nombre'] ?? '',
+                p['name'] ?? '',
                 style: const TextStyle(fontWeight: FontWeight.bold),
               ),
-              subtitle: Text(p['descripcion'] ?? ''),
+              subtitle: Text(p['description'] ?? ''),
               trailing: Text(
-                p['moneda'] ?? '',
+                p['currency'] ?? '',
                 style: const TextStyle(fontWeight: FontWeight.bold),
               ),
             ),
@@ -131,7 +132,7 @@ class _PortfolioPageState extends State<PortfolioPage> {
 }
 
 class _PortfolioForm extends StatefulWidget {
-  final void Function(String nombre, String descripcion, String moneda)
+  final void Function(String name, String description, String currency)
   onCreate;
   const _PortfolioForm({required this.onCreate});
 
@@ -140,10 +141,9 @@ class _PortfolioForm extends StatefulWidget {
 }
 
 class _PortfolioFormState extends State<_PortfolioForm> {
-  final _formKey = GlobalKey<FormState>();
-  final _nombreController = TextEditingController();
-  final _descripcionController = TextEditingController();
-  String _moneda = 'COP';
+  final _nameController = TextEditingController();
+  final _descriptionController = TextEditingController();
+  Currency _selectedCurrency = currencies.firstWhere((c) => c.code == 'COP');
 
   @override
   Widget build(BuildContext context) {
@@ -151,53 +151,52 @@ class _PortfolioFormState extends State<_PortfolioForm> {
       mainAxisSize: MainAxisSize.min,
       children: [
         const Text(
-          'Nuevo portafolio?',
+          'New Portfolio?',
           style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
         ),
         const SizedBox(height: 8),
         const Text(
-          'Agrupa tus activos según estrategias, mercados o monedas',
+          'Group your assets by strategy, market, or currency',
           textAlign: TextAlign.center,
         ),
         const SizedBox(height: 16),
         TextFormField(
-          controller: _nombreController,
+          controller: _nameController,
           decoration: const InputDecoration(
-            labelText: 'Nombre del portafolio',
-            hintText: 'ej. "ETF tecnológicos", "Inversión a largo plazo"',
+            labelText: 'Portfolio Name',
+            hintText: 'e.g. "Tech ETFs", "Long-term Investment"',
           ),
-          validator: (v) => v == null || v.isEmpty ? 'Campo requerido' : null,
+          validator: (v) => v == null || v.isEmpty ? 'Required field' : null,
         ),
         const SizedBox(height: 8),
         TextFormField(
-          controller: _descripcionController,
+          controller: _descriptionController,
           decoration: const InputDecoration(
-            labelText: 'Descripción',
-            hintText: 'ej. Portafolio de acciones colombianas',
+            labelText: 'Description',
+            hintText: 'e.g. Colombian stocks portfolio',
           ),
         ),
         const SizedBox(height: 16),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            _CurrencyButton(
-              label: 'COP',
-              selected: _moneda == 'COP',
-              onTap: () => setState(() => _moneda = 'COP'),
-            ),
-            const SizedBox(width: 8),
-            _CurrencyButton(
-              label: 'USD',
-              selected: _moneda == 'USD',
-              onTap: () => setState(() => _moneda = 'USD'),
-            ),
-            const SizedBox(width: 8),
-            _CurrencyButton(
-              label: 'EUR',
-              selected: _moneda == 'EUR',
-              onTap: () => setState(() => _moneda = 'EUR'),
-            ),
-          ],
+        DropdownButtonFormField<Currency>(
+          value: _selectedCurrency,
+          decoration: const InputDecoration(
+            labelText: 'Currency',
+            border: OutlineInputBorder(),
+          ),
+          items:
+              currencies.map((Currency currency) {
+                return DropdownMenuItem<Currency>(
+                  value: currency,
+                  child: Text('${currency.code} - ${currency.name}'),
+                );
+              }).toList(),
+          onChanged: (Currency? newValue) {
+            if (newValue != null) {
+              setState(() {
+                _selectedCurrency = newValue;
+              });
+            }
+          },
         ),
         const SizedBox(height: 24),
         SizedBox(
@@ -212,55 +211,19 @@ class _PortfolioFormState extends State<_PortfolioForm> {
               padding: const EdgeInsets.symmetric(vertical: 16),
             ),
             onPressed: () {
-              if (_nombreController.text.isNotEmpty) {
+              if (_nameController.text.isNotEmpty) {
                 widget.onCreate(
-                  _nombreController.text,
-                  _descripcionController.text,
-                  _moneda,
+                  _nameController.text,
+                  _descriptionController.text,
+                  _selectedCurrency.code,
                 );
               }
             },
-            child: const Text('Crear', style: TextStyle(fontSize: 18)),
+            child: const Text('Create', style: TextStyle(fontSize: 18)),
           ),
         ),
         const SizedBox(height: 16),
       ],
-    );
-  }
-}
-
-class _CurrencyButton extends StatelessWidget {
-  final String label;
-  final bool selected;
-  final VoidCallback onTap;
-  const _CurrencyButton({
-    required this.label,
-    required this.selected,
-    required this.onTap,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Expanded(
-      child: GestureDetector(
-        onTap: onTap,
-        child: Container(
-          padding: const EdgeInsets.symmetric(vertical: 12),
-          decoration: BoxDecoration(
-            color: selected ? Colors.white : Colors.grey[200],
-            borderRadius: BorderRadius.circular(8),
-            border: Border.all(
-              color: selected ? Colors.yellow[700]! : Colors.transparent,
-              width: 2,
-            ),
-          ),
-          alignment: Alignment.center,
-          child: Text(
-            label,
-            style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black),
-          ),
-        ),
-      ),
     );
   }
 }
