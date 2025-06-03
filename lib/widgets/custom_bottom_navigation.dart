@@ -23,6 +23,7 @@ class CustomBottomNavigation extends StatelessWidget {
       ],
       currentIndex: currentIndex,
       selectedItemColor: Theme.of(context).colorScheme.primary,
+      unselectedItemColor: Theme.of(context).colorScheme.inversePrimary,
       onTap: onTap,
     );
   }
