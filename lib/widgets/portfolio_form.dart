@@ -14,7 +14,7 @@ class PortfolioForm extends StatefulWidget {
 class _PortfolioFormState extends State<PortfolioForm> {
   final _nameController = TextEditingController();
   final _descriptionController = TextEditingController();
-  Currency _selectedCurrency = currencies.firstWhere((c) => c.code == 'COP');
+  Currency _selectedCurrency = currencies.firstWhere((c) => c.code == 'USD');
 
   @override
   void dispose() {
