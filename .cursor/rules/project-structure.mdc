@@ -1,0 +1,49 @@
+---
+description: when you're working on tasks related to navigation, file organization, or when adding new features that need to follow the existing architecture pattern.
+globs: 
+alwaysApply: false
+---
+# Flutter Project Structure Guide
+
+## Main Application Entry Point
+The main entry point of the application is [main.dart](mdc:lib/main.dart), which initializes Firebase and sets up the main application widget.
+
+## Core Services
+- Authentication service: [auth_service.dart](mdc:lib/auth_service.dart)
+- Database service: [database_service.dart](mdc:lib/database_service.dart)
+- Firebase configuration: [firebase_options.dart](mdc:lib/firebase_options.dart)
+
+## Project Structure
+The project follows a clean architecture pattern with the following main directories:
+
+### Pages (`lib/pages/`)
+Contains all the main screens of the application:
+- Welcome page for unauthenticated users
+- Home page for authenticated users
+
+### Widgets (`lib/widgets/`)
+Reusable UI components used across different pages.
+
+### Data (`lib/data/`)
+Data models and repositories for handling application data.
+
+## Platform-specific Directories
+- `android/`: Android platform-specific code
+- `ios/`: iOS platform-specific code
+- `web/`: Web platform-specific code
+- `windows/`: Windows platform-specific code
+- `linux/`: Linux platform-specific code
+- `macos/`: macOS platform-specific code
+
+## Configuration Files
+- `pubspec.yaml`: Project dependencies and configuration
+- `firebase.json`: Firebase configuration
+- `analysis_options.yaml`: Dart code analysis rules
+
+## Testing
+- `test/`: Contains all test files for the application
+
+## Development Tools
+- `.dart_tool/`: Dart SDK tooling
+- `.flutter-plugins`: Flutter plugin dependencies
+- `.flutter-plugins-dependencies`: Detailed plugin dependencies

@@ -1,0 +1,24 @@
+---
+description: when you need to work on tests
+globs: 
+alwaysApply: false
+---
+# Flutter Testing Guidelines
+
+## General Testing Principles
+- Follow the Arrange-Act-Assert convention for tests
+- Name test variables clearly following the convention:
+  - inputX, mockX, actualX, expectedX, etc.
+
+## Unit Testing
+- Write unit tests for each public function
+- Use test doubles to simulate dependencies
+  - Exception: third-party dependencies that are not expensive to execute
+
+## Acceptance Testing
+- Write acceptance tests for each module
+- Follow the Given-When-Then convention
+
+## Flutter-specific Testing
+- Use the standard widget testing for Flutter
+- Use integration tests for each API module

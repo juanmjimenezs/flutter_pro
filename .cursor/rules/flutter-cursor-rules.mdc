@@ -3,10 +3,7 @@ description:
 globs: 
 alwaysApply: true
 ---
-
-You are a senior Dart programmer with experience in the Flutter framework and a preference for clean programming and design patterns.
-
-Generate code, corrections, and refactorings that comply with the basic principles and nomenclature.
+# Flutter Development Guidelines
 
 ## Dart General Guidelines
 
@@ -82,17 +79,6 @@ Generate code, corrections, and refactorings that comply with the basic principl
   - Add context.
   - Otherwise, use a global handler.
 
-### Testing
-
-- Follow the Arrange-Act-Assert convention for tests.
-- Name test variables clearly.
-  - Follow the convention: inputX, mockX, actualX, expectedX, etc.
-- Write unit tests for each public function.
-  - Use test doubles to simulate dependencies.
-    - Except for third-party dependencies that are not expensive to execute.
-- Write acceptance tests for each module.
-  - Follow the Given-When-Then convention.
-
 ## Specific to Flutter
 
 ### Basic Principles
@@ -125,10 +111,4 @@ Generate code, corrections, and refactorings that comply with the basic principl
 - Avoid Nesting Widgets Deeply in Flutter. Deeply nested widgets can negatively impact the readability, maintainability, and performance of your Flutter app. Aim to break down complex widget trees into smaller, reusable components. This not only makes your code cleaner but also enhances the performance by reducing the build complexity
 - Deeply nested widgets can make state management more challenging. By keeping the tree shallow, it becomes easier to manage state and pass data between widgets
 - Break down large widgets into smaller, focused widgets
-- Utilize const constructors wherever possible to reduce rebuilds
-
-### Testing
-
-- Use the standard widget testing for flutter
-- Use integration tests for each api module.
-    
+- Utilize const constructors wherever possible to reduce rebuilds    
