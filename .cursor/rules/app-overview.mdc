@@ -1,0 +1,61 @@
+---
+description: when you're working on tasks related to implementing new features, modifying existing functionality, or making architectural decisions that need to align with the application's core purpose and user goals.
+globs: 
+alwaysApply: false
+---
+# Investment Portfolio Management App Overview
+
+## Purpose
+This application helps users manage and analyze their investment portfolios, enabling them to make informed decisions about portfolio balancing and asset allocation.
+
+## Core Functionalities
+
+### Portfolio Management
+- View and analyze portfolio composition
+- Track portfolio performance
+- Group assets into different portfolios
+- Monitor portfolio balance and allocation
+
+### Transaction Tracking
+- Record buy/sell transactions for each asset
+- Track transaction history
+- Calculate gains/losses
+- Monitor investment costs
+
+### Investment Notes
+- Create and manage investment ideas
+- Record market observations
+- Track investment thesis
+- Document research findings
+
+## Key Features
+1. Portfolio Overview
+   - Current portfolio composition
+   - Asset allocation visualization
+   - Performance metrics
+   - Risk analysis
+
+2. Transaction Management
+   - Record new transactions
+   - View transaction history
+   - Calculate returns
+   - Track costs and fees
+
+3. Note Taking System
+   - Create investment notes
+   - Categorize notes by topic
+   - Link notes to specific assets
+   - Search and filter notes
+
+## User Goals
+- Make informed investment decisions
+- Track portfolio performance
+- Maintain organized investment records
+- Document investment research and ideas
+
+## Technical Considerations
+- Real-time portfolio updates
+- Secure data storage
+- Offline capabilities
+- Data visualization
+- Search and filtering capabilities
