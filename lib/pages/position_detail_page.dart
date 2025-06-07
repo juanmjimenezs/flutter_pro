@@ -136,6 +136,7 @@ class _PositionDetailPageState extends State<PositionDetailPage> {
             ),
             child: SellForm(
               maxUnits: maxUnits,
+              currency: widget.currency,
               onSubmit: (units, unitValue, commission, date) async {
                 Navigator.pop(context);
                 await _addSell(units, unitValue, commission, date);

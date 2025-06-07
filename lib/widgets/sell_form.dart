@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 class SellForm extends StatefulWidget {
   final double maxUnits;
+  final String currency;
   final void Function(
     double units,
     double unitValue,
@@ -10,7 +11,12 @@ class SellForm extends StatefulWidget {
   )
   onSubmit;
 
-  const SellForm({super.key, required this.maxUnits, required this.onSubmit});
+  const SellForm({
+    super.key,
+    required this.maxUnits,
+    required this.currency,
+    required this.onSubmit,
+  });
 
   @override
   State<SellForm> createState() => _SellFormState();
@@ -85,7 +91,10 @@ class _SellFormState extends State<SellForm> {
               keyboardType: const TextInputType.numberWithOptions(
                 decimal: true,
               ),
-              decoration: const InputDecoration(labelText: 'Unit value'),
+              decoration: InputDecoration(
+                labelText: 'Unit value',
+                suffixText: widget.currency,
+              ),
               validator: (v) {
                 if (v == null || v.isEmpty) return 'Required field';
                 final value = double.tryParse(v);
@@ -101,7 +110,10 @@ class _SellFormState extends State<SellForm> {
               keyboardType: const TextInputType.numberWithOptions(
                 decimal: true,
               ),
-              decoration: const InputDecoration(labelText: 'Commission'),
+              decoration: InputDecoration(
+                labelText: 'Commission',
+                suffixText: widget.currency,
+              ),
               validator: (v) {
                 if (v == null || v.isEmpty) return 'Required field';
                 final value = double.tryParse(v);
