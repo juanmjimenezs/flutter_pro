@@ -72,6 +72,7 @@ class _PortfolioAssetsPageState extends State<PortfolioAssetsPage> {
             ),
             child: BuyForm(
               assets: _assets.keys.toList(),
+              currency: widget.currency,
               onSubmit: (asset, units, unitValue, commission, date) async {
                 Navigator.pop(context);
                 await _addBuy(asset, units, unitValue, commission, date);

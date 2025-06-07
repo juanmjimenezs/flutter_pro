@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 class BuyForm extends StatefulWidget {
   final List<String> assets;
+  final String currency;
   final void Function(
     String asset,
     double units,
@@ -11,7 +12,12 @@ class BuyForm extends StatefulWidget {
   )
   onSubmit;
 
-  const BuyForm({super.key, required this.assets, required this.onSubmit});
+  const BuyForm({
+    super.key,
+    required this.assets,
+    required this.currency,
+    required this.onSubmit,
+  });
 
   @override
   State<BuyForm> createState() => _BuyFormState();
@@ -121,9 +127,9 @@ class _BuyFormState extends State<BuyForm> {
               keyboardType: const TextInputType.numberWithOptions(
                 decimal: true,
               ),
-              decoration: const InputDecoration(
+              decoration: InputDecoration(
                 labelText: 'Unit value',
-                suffixText: 'COP', // Can be dynamic according to the currency
+                suffixText: widget.currency,
               ),
               validator: (v) {
                 if (v == null || v.isEmpty) return 'Required field';
@@ -140,9 +146,9 @@ class _BuyFormState extends State<BuyForm> {
               keyboardType: const TextInputType.numberWithOptions(
                 decimal: true,
               ),
-              decoration: const InputDecoration(
+              decoration: InputDecoration(
                 labelText: 'Commission',
-                suffixText: 'COP', // Can be dynamic according to the currency
+                suffixText: widget.currency,
               ),
               validator: (v) {
                 if (v == null || v.isEmpty) return 'Required field';
