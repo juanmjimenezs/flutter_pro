@@ -4,6 +4,7 @@ import '../database_service.dart';
 import '../auth_service.dart';
 import 'dart:math';
 import 'position_detail_page.dart';
+import '../widgets/buy_form.dart';
 
 class AssetPositionsPage extends StatefulWidget {
   final String portfolioId;
@@ -123,6 +124,55 @@ class _AssetPositionsPageState extends State<AssetPositionsPage> {
     return ((totalSale - totalBuy) / totalBuy) * 100;
   }
 
+  void _showBuyForm() {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+      ),
+      builder:
+          (context) => Padding(
+            padding: EdgeInsets.only(
+              bottom: MediaQuery.of(context).viewInsets.bottom,
+              left: 24,
+              right: 24,
+              top: 32,
+            ),
+            child: BuyForm(
+              assets: [widget.asset],
+              currency: widget.currency,
+              onSubmit: (asset, units, unitValue, commission, date) async {
+                Navigator.pop(context);
+                await _addBuy(asset, units, unitValue, commission, date);
+              },
+            ),
+          ),
+    );
+  }
+
+  Future<void> _addBuy(
+    String asset,
+    double units,
+    double unitValue,
+    double commission,
+    DateTime date,
+  ) async {
+    if (_userId.isEmpty) return;
+    final newBuy = {
+      'asset': asset,
+      'units': units,
+      'unitValue': unitValue,
+      'commission': commission,
+      'date': date.toIso8601String(),
+    };
+    await DatabaseService().create(
+      path: 'users/$_userId/portfolios/${widget.portfolioId}/buy',
+      data: newBuy,
+    );
+    await _loadPositions();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -208,6 +258,10 @@ class _AssetPositionsPageState extends State<AssetPositionsPage> {
                     const Center(child: Text('No positions registered')),
                 ],
               ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: _showBuyForm,
+        child: const Icon(Icons.add),
+      ),
     );
   }
 }
