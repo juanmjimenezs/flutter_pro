@@ -113,6 +113,15 @@ class _BuyFormState extends State<BuyForm> {
               keyboardType: const TextInputType.numberWithOptions(
                 decimal: true,
               ),
+              inputFormatters: [
+                FilteringTextInputFormatter.allow(RegExp(r'^\d*[,.]?\d*')),
+                TextInputFormatter.withFunction((oldValue, newValue) {
+                  return TextEditingValue(
+                    text: newValue.text.replaceAll(',', '.'),
+                    selection: newValue.selection,
+                  );
+                }),
+              ],
               decoration: const InputDecoration(labelText: '# of Units'),
               validator: (v) {
                 if (v == null || v.isEmpty) return 'Required field';
@@ -130,7 +139,13 @@ class _BuyFormState extends State<BuyForm> {
                 decimal: true,
               ),
               inputFormatters: [
-                FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d*')),
+                FilteringTextInputFormatter.allow(RegExp(r'^\d*[,.]?\d*')),
+                TextInputFormatter.withFunction((oldValue, newValue) {
+                  return TextEditingValue(
+                    text: newValue.text.replaceAll(',', '.'),
+                    selection: newValue.selection,
+                  );
+                }),
               ],
               decoration: InputDecoration(
                 labelText: 'Unit value',
@@ -152,7 +167,13 @@ class _BuyFormState extends State<BuyForm> {
                 decimal: true,
               ),
               inputFormatters: [
-                FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d*')),
+                FilteringTextInputFormatter.allow(RegExp(r'^\d*[,.]?\d*')),
+                TextInputFormatter.withFunction((oldValue, newValue) {
+                  return TextEditingValue(
+                    text: newValue.text.replaceAll(',', '.'),
+                    selection: newValue.selection,
+                  );
+                }),
               ],
               decoration: InputDecoration(
                 labelText: 'Commission',

@@ -70,6 +70,15 @@ class _SellFormState extends State<SellForm> {
               keyboardType: const TextInputType.numberWithOptions(
                 decimal: true,
               ),
+              inputFormatters: [
+                FilteringTextInputFormatter.allow(RegExp(r'^\d*[,.]?\d*')),
+                TextInputFormatter.withFunction((oldValue, newValue) {
+                  return TextEditingValue(
+                    text: newValue.text.replaceAll(',', '.'),
+                    selection: newValue.selection,
+                  );
+                }),
+              ],
               decoration: InputDecoration(
                 labelText: '# of Units',
                 helperText: 'Max: ${widget.maxUnits}',
@@ -93,7 +102,13 @@ class _SellFormState extends State<SellForm> {
                 decimal: true,
               ),
               inputFormatters: [
-                FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d*')),
+                FilteringTextInputFormatter.allow(RegExp(r'^\d*[,.]?\d*')),
+                TextInputFormatter.withFunction((oldValue, newValue) {
+                  return TextEditingValue(
+                    text: newValue.text.replaceAll(',', '.'),
+                    selection: newValue.selection,
+                  );
+                }),
               ],
               decoration: InputDecoration(
                 labelText: 'Unit value',
@@ -115,7 +130,13 @@ class _SellFormState extends State<SellForm> {
                 decimal: true,
               ),
               inputFormatters: [
-                FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d*')),
+                FilteringTextInputFormatter.allow(RegExp(r'^\d*[,.]?\d*')),
+                TextInputFormatter.withFunction((oldValue, newValue) {
+                  return TextEditingValue(
+                    text: newValue.text.replaceAll(',', '.'),
+                    selection: newValue.selection,
+                  );
+                }),
               ],
               decoration: InputDecoration(
                 labelText: 'Commission',
