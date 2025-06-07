@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class BuyForm extends StatefulWidget {
   final List<String> assets;
@@ -86,6 +87,7 @@ class _BuyFormState extends State<BuyForm> {
               ) {
                 return TextFormField(
                   controller: textEditingController,
+                  enableSuggestions: false,
                   focusNode: focusNode,
                   textCapitalization: TextCapitalization.characters,
                   onChanged: (value) {
@@ -127,6 +129,9 @@ class _BuyFormState extends State<BuyForm> {
               keyboardType: const TextInputType.numberWithOptions(
                 decimal: true,
               ),
+              inputFormatters: [
+                FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d*')),
+              ],
               decoration: InputDecoration(
                 labelText: 'Unit value',
                 suffixText: widget.currency,
@@ -146,6 +151,9 @@ class _BuyFormState extends State<BuyForm> {
               keyboardType: const TextInputType.numberWithOptions(
                 decimal: true,
               ),
+              inputFormatters: [
+                FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d*')),
+              ],
               decoration: InputDecoration(
                 labelText: 'Commission',
                 suffixText: widget.currency,
@@ -175,6 +183,10 @@ class _BuyFormState extends State<BuyForm> {
             SizedBox(
               width: double.infinity,
               child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Theme.of(context).colorScheme.primary,
+                  foregroundColor: Colors.white,
+                ),
                 onPressed: () {
                   if (_formKey.currentState?.validate() ?? false) {
                     widget.onSubmit(
@@ -189,6 +201,7 @@ class _BuyFormState extends State<BuyForm> {
                 child: const Text('Add'),
               ),
             ),
+            const SizedBox(height: 28),
           ],
         ),
       ),

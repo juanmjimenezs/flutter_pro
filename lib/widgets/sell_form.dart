@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class SellForm extends StatefulWidget {
   final double maxUnits;
@@ -91,6 +92,9 @@ class _SellFormState extends State<SellForm> {
               keyboardType: const TextInputType.numberWithOptions(
                 decimal: true,
               ),
+              inputFormatters: [
+                FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d*')),
+              ],
               decoration: InputDecoration(
                 labelText: 'Unit value',
                 suffixText: widget.currency,
@@ -110,6 +114,9 @@ class _SellFormState extends State<SellForm> {
               keyboardType: const TextInputType.numberWithOptions(
                 decimal: true,
               ),
+              inputFormatters: [
+                FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d*')),
+              ],
               decoration: InputDecoration(
                 labelText: 'Commission',
                 suffixText: widget.currency,
@@ -139,6 +146,10 @@ class _SellFormState extends State<SellForm> {
             SizedBox(
               width: double.infinity,
               child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Theme.of(context).colorScheme.primary,
+                  foregroundColor: Colors.white,
+                ),
                 onPressed: () {
                   if (_formKey.currentState?.validate() ?? false) {
                     widget.onSubmit(
@@ -152,6 +163,7 @@ class _SellFormState extends State<SellForm> {
                 child: const Text('Sell'),
               ),
             ),
+            const SizedBox(height: 28),
           ],
         ),
       ),
