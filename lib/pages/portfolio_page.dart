@@ -3,6 +3,7 @@ import 'package:firebase_database/firebase_database.dart';
 import '../database_service.dart';
 import '../auth_service.dart';
 import '../widgets/portfolio_form.dart';
+import '../pages/portfolio_assets_page.dart';
 
 class PortfolioPage extends StatefulWidget {
   const PortfolioPage({super.key});
@@ -115,6 +116,19 @@ class _PortfolioPageState extends State<PortfolioPage> {
                 p['currency'] ?? '',
                 style: const TextStyle(fontWeight: FontWeight.bold),
               ),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder:
+                        (context) => PortfolioAssetsPage(
+                          portfolioId: p['id'],
+                          portfolioName: p['name'],
+                          currency: p['currency'],
+                        ),
+                  ),
+                );
+              },
             ),
           );
         },
