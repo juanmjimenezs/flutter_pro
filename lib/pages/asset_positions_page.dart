@@ -196,7 +196,9 @@ class _AssetPositionsPageState extends State<AssetPositionsPage> {
                       (p) => Card(
                         margin: const EdgeInsets.only(bottom: 12),
                         child: ListTile(
-                          title: Text('${p['units']} (${p['id']})'),
+                          title: Text(
+                            '${p['units']} shares at ${double.parse(p['unitValue'].toString()).toStringAsFixed(2)} ${widget.currency}',
+                          ),
                           subtitle: Text(_formatDate(p['date'])),
                           trailing: const Icon(Icons.chevron_right),
                           onTap: () {
