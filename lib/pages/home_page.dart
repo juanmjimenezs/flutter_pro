@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_pro/auth_service.dart';
 import '../widgets/custom_bottom_navigation.dart';
 import 'profile_page.dart';
 import 'tasks_page.dart';
@@ -25,7 +26,7 @@ class _MyHomePageState extends State<MyHomePage> {
     final List<Widget> pages = <Widget>[
       TasksPage(),
       PortfolioPage(),
-      ProfilePage(),
+      ProfilePage(authService: authService),
     ];
     final List<String> titles = <String>[
       TasksPage.title,

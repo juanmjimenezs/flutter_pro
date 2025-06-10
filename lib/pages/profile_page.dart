@@ -4,7 +4,10 @@ import '../auth_service.dart';
 import '../pages/welcome_page.dart';
 
 class ProfilePage extends StatefulWidget {
-  const ProfilePage({super.key});
+  final ValueNotifier<AuthService> authService;
+
+  const ProfilePage({super.key, required this.authService});
+
   static const String title = 'Profile';
 
   @override
@@ -28,7 +31,7 @@ class _ProfilePageState extends State<ProfilePage> {
 
   void _updatePassword(BuildContext context) async {
     try {
-      await authService.value.resetPasswordFromCurrentPassword(
+      await widget.authService.value.resetPasswordFromCurrentPassword(
         currentPassword: _currentPasswordController.text,
         newPassword: _newPasswordController.text,
         email: _emailController.text,
@@ -56,7 +59,7 @@ class _ProfilePageState extends State<ProfilePage> {
 
   void _updateUsername(BuildContext context) async {
     try {
-      await authService.value.updateUsername(
+      await widget.authService.value.updateUsername(
         username: _usernameController.text,
       );
 
@@ -186,7 +189,7 @@ class _ProfilePageState extends State<ProfilePage> {
       final navigator = Navigator.of(context);
 
       try {
-        await authService.value.signOut();
+        await widget.authService.value.signOut();
 
         navigator.pushReplacement(
           MaterialPageRoute(builder: (context) => const WelcomePage()),
@@ -206,7 +209,7 @@ class _ProfilePageState extends State<ProfilePage> {
           const CircleAvatar(radius: 50, child: Icon(Icons.person, size: 50)),
           const SizedBox(height: 24),
           Text(
-            authService.value.currentUser?.displayName ?? 'User Name',
+            widget.authService.value.currentUser?.displayName ?? 'User Name',
             textAlign: TextAlign.center,
             style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
           ),
