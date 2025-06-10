@@ -5,6 +5,7 @@ import '../auth_service.dart';
 import 'dart:math';
 import 'position_detail_page.dart';
 import '../widgets/buy_form.dart';
+import '../utils/date_formatter.dart';
 
 class AssetPositionsPage extends StatefulWidget {
   final String portfolioId;
@@ -77,32 +78,6 @@ class _AssetPositionsPageState extends State<AssetPositionsPage> {
       _closedPositions = closed;
       _loading = false;
     });
-  }
-
-  String _formatDate(String? iso) {
-    if (iso == null) return '';
-    final date = DateTime.tryParse(iso);
-    if (date == null) return '';
-    return '${date.day.toString().padLeft(2, '0')} ${_monthName(date.month)} ${date.year}';
-  }
-
-  String _monthName(int month) {
-    const months = [
-      '',
-      'January',
-      'February',
-      'March',
-      'April',
-      'May',
-      'June',
-      'July',
-      'August',
-      'September',
-      'October',
-      'November',
-      'December',
-    ];
-    return months[month];
   }
 
   double _calculateProfit(Map<String, dynamic> buy) {
@@ -199,7 +174,7 @@ class _AssetPositionsPageState extends State<AssetPositionsPage> {
                           title: Text(
                             '${p['units']} shares at ${double.parse(p['unitValue'].toString()).toStringAsFixed(2)} ${widget.currency}',
                           ),
-                          subtitle: Text(_formatDate(p['date'])),
+                          subtitle: Text(formatDate(p['date'])),
                           trailing: const Icon(Icons.chevron_right),
                           onTap: () {
                             Navigator.push(
@@ -236,7 +211,7 @@ class _AssetPositionsPageState extends State<AssetPositionsPage> {
                           title: Text(
                             '${p['units']} → Profit ${_calculateProfit(p).toStringAsFixed(1)}%',
                           ),
-                          subtitle: Text(_formatDate(p['date'])),
+                          subtitle: Text(formatDate(p['date'])),
                           trailing: const Icon(Icons.chevron_right),
                           onTap: () {
                             Navigator.push(

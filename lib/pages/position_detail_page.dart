@@ -3,6 +3,7 @@ import 'package:firebase_database/firebase_database.dart';
 import '../database_service.dart';
 import '../auth_service.dart';
 import '../widgets/sell_form.dart';
+import '../utils/date_formatter.dart';
 
 class PositionDetailPage extends StatefulWidget {
   final String portfolioId;
@@ -65,32 +66,6 @@ class _PositionDetailPageState extends State<PositionDetailPage> {
         _loading = false;
       });
     }
-  }
-
-  String _formatDate(String? iso) {
-    if (iso == null) return '';
-    final date = DateTime.tryParse(iso);
-    if (date == null) return '';
-    return '${date.day.toString().padLeft(2, '0')} ${_monthName(date.month)} ${date.year}';
-  }
-
-  String _monthName(int month) {
-    const months = [
-      '',
-      'January',
-      'February',
-      'March',
-      'April',
-      'May',
-      'June',
-      'July',
-      'August',
-      'September',
-      'October',
-      'November',
-      'December',
-    ];
-    return months[month];
   }
 
   double _calculateProfit(Map<String, dynamic> sale) {
@@ -184,7 +159,7 @@ class _PositionDetailPageState extends State<PositionDetailPage> {
                     child: ListTile(
                       title: Text('Buy: ${_buy!['units']} units'),
                       subtitle: Text(
-                        'Unit value: ${_buy!['unitValue']} ${widget.currency}\nCommission: ${_buy!['commission']} ${widget.currency}\nDate: ${_formatDate(_buy!['date'])}',
+                        'Unit value: ${_buy!['unitValue']} ${widget.currency}\nCommission: ${_buy!['commission']} ${widget.currency}\nDate: ${formatDate(_buy!['date'])}',
                       ),
                     ),
                   ),
@@ -208,7 +183,7 @@ class _PositionDetailPageState extends State<PositionDetailPage> {
                           '${v['units']} units at ${v['unitValue']} ${widget.currency}',
                         ),
                         subtitle: Text(
-                          'Commission: ${v['commission']} ${widget.currency}\nDate: ${_formatDate(v['date'])}',
+                          'Commission: ${v['commission']} ${widget.currency}\nDate: ${formatDate(v['date'])}',
                         ),
                       ),
                     ),
